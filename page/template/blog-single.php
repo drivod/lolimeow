@@ -54,8 +54,13 @@ if(!defined('ABSPATH')){echo'Look your sister';exit;}
                           </div>
                         </div>
                       </div>
-                      <div class="single-content">                       
-                        <?php the_content(); ?>
+		      <div class="single-content"> 
+<?php 
+			   echo '<pre style="display:none;">' . esc_html( get_post_field('post_content', get_the_ID()) ) . '</pre>';
+error_log( 'post_content ID ' . get_the_ID() . ': ' . print_r( get_post_field('post_content', get_the_ID()), true ) );
+ 
+				the_content(); 
+			?>
                     </div>
 
                       <div class="single-tags mt-7">

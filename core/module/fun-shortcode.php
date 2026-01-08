@@ -226,10 +226,25 @@ function audio_shortcode( $attr , $content = ' ') {
 //音频preload=metadata
 add_shortcode('video', 'video_shortcode');  
 function video_shortcode( $attr , $content = ' ') {
-	extract( shortcode_atts( array('link' => ''), $attr ) );
-    $out ='<video preload="none" controls="controls" width="1080" height="1920"><source type="video/mp4" src="'.esc_attr($attr['link']).'"></video>';  
+    // 合并默认参数和用户传入的参数，重点读取mp4参数
+    $atts = shortcode_atts( array(
+        'mp4' => '',     // 对应你短代码里的mp4参数
+        'width' => '1280',  // 默认宽度
+        'height' => '720'   // 默认高度
+    ), $attr );
+
+    // 检查mp4链接是否存在，避免空链接
+    if (empty($atts['mp4'])) {
+        return '<p>视频链接不能为空</p>';
+    }
+
+    // 拼接视频HTML，使用正确的mp4参数，宽高也使用短代码里的值
+    $out = '<video preload="none" controls="controls" width="'.esc_attr($atts['width']).'" height="'.esc_attr($atts['height']).'">
+                <source type="video/mp4" src="'.esc_attr($atts['mp4']).'">
+            </video>';  
     return $out;  	
 }
+
 
 //会员查看内容
 function login_to_read($atts, $content=null) {
